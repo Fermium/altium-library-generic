@@ -219,31 +219,10 @@ HTML_TEMPLATE = """\
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }}
-  header p {{ color: var(--muted); margin-top: 0.4rem; font-size: 0.9rem; }}
+  header p {{ color: var(--muted); margin-top: 0.3rem; font-size: 0.9rem; }}
 
-  .stats {{
-    display: flex;
-    gap: 1.5rem;
+  .header-controls {{
     margin-top: 1.2rem;
-    flex-wrap: wrap;
-  }}
-  .stat {{
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 0.35rem 0.85rem;
-    font-size: 0.8rem;
-    color: var(--muted);
-  }}
-  .stat strong {{ color: var(--accent); }}
-
-  .controls {{
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    background: var(--bg);
-    border-bottom: 1px solid var(--border);
-    padding: 0.9rem 2.5rem;
     display: flex;
     gap: 0.8rem;
     align-items: center;
@@ -254,7 +233,7 @@ HTML_TEMPLATE = """\
     position: relative;
     flex: 1;
     min-width: 200px;
-    max-width: 380px;
+    max-width: 340px;
   }}
   .search-wrap svg {{
     position: absolute;
@@ -265,7 +244,7 @@ HTML_TEMPLATE = """\
   }}
   #search {{
     width: 100%;
-    background: var(--surface);
+    background: rgba(255,255,255,.07);
     border: 1px solid var(--border);
     border-radius: 6px;
     color: var(--text);
@@ -278,7 +257,7 @@ HTML_TEMPLATE = """\
 
   .filters {{ display: flex; gap: 0.5rem; flex-wrap: wrap; }}
   .filter-btn {{
-    background: var(--surface);
+    background: rgba(255,255,255,.06);
     border: 1px solid var(--border);
     border-radius: 20px;
     color: var(--muted);
@@ -437,23 +416,18 @@ HTML_TEMPLATE = """\
 <header>
   <h1>Altium Generic Library</h1>
   <p>Generic schematic symbols — parameter-free, ready for enrichment</p>
-  <div class="stats">
-    <div class="stat">Total symbols: <strong>{total}</strong></div>
-    {cat_stats}
+  <div class="header-controls">
+    <div class="search-wrap">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      <input id="search" type="search" placeholder="Search by name or ID…" autocomplete="off"/>
+    </div>
+    <div class="filters">
+      {filter_buttons}
+    </div>
   </div>
 </header>
-
-<div class="controls">
-  <div class="search-wrap">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-    </svg>
-    <input id="search" type="search" placeholder="Search by name or ID…" autocomplete="off"/>
-  </div>
-  <div class="filters">
-    {filter_buttons}
-  </div>
-</div>
 
 <main id="main">
 {sections}
@@ -543,7 +517,6 @@ CARD_TEMPLATE = """\
       <div class="card-preview"><img src="{svg_rel}" alt="{name}" loading="lazy"/></div>
       <div class="card-label">
         <span class="card-name">{name}</span>
-        <button class="copy-btn" data-copy="{name}" title="Copy full name">{copy_icon}</button>
       </div>
       <div class="card-id-row">
         <span class="card-id">{symbol_id}</span>
@@ -571,12 +544,8 @@ def build_html(components: list[dict]) -> str:
     )
 
     sections_html = []
-    cat_stats_parts = []
     for cat in cats:
         items = sorted(by_cat[cat], key=lambda x: x["name"])
-        cat_stats_parts.append(
-            f'<div class="stat">{cat}: <strong>{len(items)}</strong></div>'
-        )
         cards_html = "\n".join(
             CARD_TEMPLATE.format(
                 name=c["name"],
@@ -594,8 +563,6 @@ def build_html(components: list[dict]) -> str:
         )
 
     return HTML_TEMPLATE.format(
-        total=len(components),
-        cat_stats="".join(cat_stats_parts),
         filter_buttons=filter_buttons,
         sections="\n".join(sections_html),
     )
