@@ -13,6 +13,8 @@ filesystem-derived category.
 
 import io
 import os
+import re
+import xml.etree.ElementTree as ET
 import zipfile
 import concurrent.futures
 from collections import defaultdict
@@ -20,6 +22,9 @@ from pathlib import Path
 
 import requests
 import yaml
+
+ET.register_namespace("", "http://www.w3.org/2000/svg")
+ET.register_namespace("xlink", "http://www.w3.org/1999/xlink")
 
 API_BASE = os.environ["ALTIUM_MONKEY_API_URL"]
 SYMBOLS_DIR = Path("symbols")
@@ -34,6 +39,82 @@ CAT_ORDER = [
     "Mechanical", "Pin-Specific", "Header",
     "Generic", "Headers",  # fallback names for unlisted files
 ]
+
+
+# ---------------------------------------------------------------------------
+# SVG post-processing
+# ---------------------------------------------------------------------------
+
+def _pts(attr: str):
+    """Yield (x, y) floats from a 'x1,y1 x2,y2 ...' points string."""
+    for token in re.split(r"[\s,]+", attr.strip()):
+        pass  # handled below
+    pairs = re.findall(r"(-?[\d.]+)\s*,\s*(-?[\d.]+)", attr)
+    for x, y in pairs:
+        yield float(x), float(y)
+
+def _sw(el: ET.Element) -> float:
+    raw = el.get("stroke-width", "1").rstrip("px").strip()
+    try:
+        return float(raw) / 2
+    except ValueError:
+        return 0.5
+
+def tighten_viewbox(svg_text: str, padding: float = 6.0) -> str:
+    """Remove the white background rect and fit viewBox tightly to content."""
+    decl, _, body = svg_text.partition("\n")
+    root = ET.fromstring(body if decl.startswith("<?") else svg_text)
+    svgns = "http://www.w3.org/2000/svg"
+
+    # Remove BackgroundGroup
+    for parent in root.iter():
+        for child in list(parent):
+            if child.get("id") == "BackgroundGroup":
+                parent.remove(child)
+
+    # Compute bounding box over all geometry
+    xs, ys = [], []
+
+    def add(x, y):
+        xs.append(x); ys.append(y)
+
+    for el in root.iter():
+        tag = el.tag.split("}")[-1] if "}" in el.tag else el.tag
+        sw = _sw(el)
+        if tag == "line":
+            for attr in ("x1", "x2"):
+                add(float(el.get(attr, 0)) + sw, float(el.get(attr.replace("x", "y"), 0)) + sw)
+                add(float(el.get(attr, 0)) - sw, float(el.get(attr.replace("x", "y"), 0)) - sw)
+        elif tag == "polygon":
+            for x, y in _pts(el.get("points", "")):
+                add(x, y)
+        elif tag == "rect":
+            x, y = float(el.get("x", 0)), float(el.get("y", 0))
+            w, h = float(el.get("width", 0)), float(el.get("height", 0))
+            add(x, y); add(x + w, y + h)
+        elif tag == "ellipse":
+            cx, cy = float(el.get("cx", 0)), float(el.get("cy", 0))
+            rx, ry = float(el.get("rx", 0)), float(el.get("ry", 0))
+            add(cx - rx, cy - ry); add(cx + rx, cy + ry)
+        elif tag == "text":
+            add(float(el.get("x", 0)), float(el.get("y", 0)))
+
+    if not xs:
+        return svg_text
+
+    vx = min(xs) - padding
+    vy = min(ys) - padding
+    vw = max(xs) - min(xs) + 2 * padding
+    vh = max(ys) - min(ys) + 2 * padding
+
+    root.set("viewBox", f"{vx:.2f} {vy:.2f} {vw:.2f} {vh:.2f}")
+    root.attrib.pop("width", None)
+    root.attrib.pop("height", None)
+
+    return (
+        '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\n'
+        + ET.tostring(root, encoding="unicode")
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -545,7 +626,7 @@ def process_one(schlib_path: Path, manifest: dict) -> list[dict]:
             display_name = symbol_id
 
         svg_file = SVG_DIR / f"{symbol_id}.svg"
-        svg_file.write_text(svg_content, encoding="utf-8")
+        svg_file.write_text(tighten_viewbox(svg_content), encoding="utf-8")
         results.append({
             "id": symbol_id,
             "name": display_name,
