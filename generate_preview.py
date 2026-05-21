@@ -571,6 +571,9 @@ def main() -> None:
         for fut in concurrent.futures.as_completed(futures):
             components.extend(fut.result())
 
+    if not components:
+        raise RuntimeError("No symbols rendered — check ALTIUM_MONKEY_API_URL and API availability")
+
     print(f"\nRendered {len(components)} symbols total.")
 
     html_path = DOCS_DIR / "index.html"
