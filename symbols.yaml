@@ -1,0 +1,619 @@
+# Altium Generic Library — Symbol Manifest
+# Single source of truth: add, remove, or rename entries here.
+# Run generate_preview.py to regenerate docs/ from this file.
+
+symbols:
+
+  # ── Passive ───────────────────────────────────────────────────────────────
+
+  - file: symbols/GENERIC_R.Schlib
+    name: Resistor
+    category: Passive
+
+  - file: symbols/GENERIC_R0.Schlib
+    name: Zero-Ohm Resistor
+    category: Passive
+
+  - file: symbols/GENERIC_R0TP.Schlib
+    name: Zero-Ohm Resistor (Test Point)
+    category: Passive
+
+  - file: symbols/GENERIC_R_VAR.Schlib
+    name: Variable Resistor
+    category: Passive
+
+  - file: symbols/GENERIC_RKELVIN.Schlib
+    name: Kelvin Resistor
+    category: Passive
+
+  - file: symbols/GENERIC_RX.Schlib
+    name: Resistor (Value TBD)
+    category: Passive
+
+  - file: symbols/GENERIC_RNET_4.Schlib
+    name: Resistor Network 4×
+    category: Passive
+
+  - file: symbols/GENERIC_R_NTC.SchLib
+    name: NTC Thermistor
+    category: Passive
+
+  - file: symbols/GENERIC_R_PTC.SchLib
+    name: PTC Thermistor
+    category: Passive
+
+  - file: symbols/GENERIC_C.Schlib
+    name: Capacitor
+    category: Passive
+
+  - file: symbols/GENERIC_C_ELEC.Schlib
+    name: Electrolytic Capacitor
+    category: Passive
+
+  - file: symbols/GENERIC_CX.SchLib
+    name: Capacitor (Value TBD)
+    category: Passive
+
+  - file: symbols/GENERIC_L.Schlib
+    name: Inductor
+    category: Passive
+
+  - file: symbols/GENERIC_L_CM.SchLib
+    name: Common Mode Choke
+    category: Passive
+
+  - file: symbols/GENERIC_L_mechanical.Schlib
+    name: Inductor (Mechanical)
+    category: Passive
+
+  - file: symbols/GENERIC_FB.Schlib
+    name: Ferrite Bead
+    category: Passive
+
+  - file: symbols/GENERIC_VARISTOR.SchLib
+    name: Varistor (MOV)
+    category: Passive
+
+  # ── Semiconductor: Diodes ─────────────────────────────────────────────────
+
+  - file: symbols/GENERIC_D.Schlib
+    name: Diode
+    category: Semiconductor
+
+  - file: symbols/GENERIC_D_LED.Schlib
+    name: LED Diode
+    category: Semiconductor
+
+  - file: symbols/GENERIC_D_ZENER.SchLib
+    name: Zener Diode
+    category: Semiconductor
+
+  - file: symbols/GENERIC_D_SCHOTTKY.SchLib
+    name: Schottky Diode
+    category: Semiconductor
+
+  - file: symbols/GENERIC_D_TVS.SchLib
+    name: TVS Diode
+    category: Semiconductor
+
+  - file: symbols/GENERIC_D_TVS_BI.SchLib
+    name: Bidirectional TVS Diode
+    category: Semiconductor
+
+  - file: symbols/GENERIC_TRANSIL.Schlib
+    name: Transil (TVS Array)
+    category: Semiconductor
+
+  - file: symbols/GENERIC_D_bridge.Schlib
+    name: Bridge Rectifier
+    category: Semiconductor
+
+  # ── Semiconductor: Transistors ────────────────────────────────────────────
+
+  - file: symbols/GENERIC_NPN.SchLib
+    name: NPN Transistor
+    category: Semiconductor
+
+  - file: symbols/GENERIC_PNP.SchLib
+    name: PNP Transistor
+    category: Semiconductor
+
+  - file: symbols/GENERIC_N_MOSFET.SchLib
+    name: N-Channel MOSFET
+    category: Semiconductor
+
+  - file: symbols/GENERIC_P_MOSFET.SchLib
+    name: P-Channel MOSFET
+    category: Semiconductor
+
+  - file: symbols/GENERIC_N_MOSFET_DUAL.SchLib
+    name: N-Channel Dual MOSFET
+    category: Semiconductor
+
+  - file: symbols/GENERIC_P_MOSFET_DUAL.SchLib
+    name: P-Channel Dual MOSFET
+    category: Semiconductor
+
+  - file: symbols/GENERIC_IGBT.Schlib
+    name: IGBT
+    category: Semiconductor
+
+  - file: symbols/GENERIC_IGBT_DIODELESS.Schlib
+    name: IGBT (Diodeless)
+    category: Semiconductor
+
+  - file: symbols/GENERIC_OPTOCOUPLER.Schlib
+    name: Optocoupler
+    category: Semiconductor
+
+  - file: symbols/GENERIC_SSR_MOSFET_OUT.SchLib
+    name: Solid State Relay (MOSFET Output)
+    category: Semiconductor
+
+  # ── Protection ────────────────────────────────────────────────────────────
+
+  - file: symbols/GENERIC_fuse.Schlib
+    name: Fuse
+    category: Protection
+
+  - file: symbols/GENERIC_FUSE_FLOATING.SchLib
+    name: Fuse (Floating)
+    category: Protection
+
+  - file: symbols/GENERIC_FUSE_HOLDER.SchLib
+    name: Fuse Holder
+    category: Protection
+
+  - file: symbols/GENERIC_FUSE_HOLDER_HALF.SchLib
+    name: Fuse Holder (Half)
+    category: Protection
+
+  - file: symbols/GENERIC_FUSE_MECHANICAL.SchLib
+    name: Fuse (Mechanical)
+    category: Protection
+
+  # ── Crystal / Oscillator ──────────────────────────────────────────────────
+
+  - file: symbols/GENERIC_CRYSTAL.SchLib
+    name: Crystal
+    category: Crystal
+
+  - file: symbols/GENERIC_CRYSTAL_CERAMIC.SchLib
+    name: Ceramic Crystal
+    category: Crystal
+
+  - file: symbols/GENERIC_CRYSTAL_GND.SchLib
+    name: Crystal (Grounded Case)
+    category: Crystal
+
+  # ── Electromechanical ─────────────────────────────────────────────────────
+
+  - file: symbols/GENERIC_RELAY_SPDT.Schlib
+    name: Relay SPDT
+    category: Electromechanical
+
+  - file: symbols/GENERIC_SWITCH_SPST_NO.SchLib
+    name: Switch SPST (Normally Open)
+    category: Electromechanical
+
+  - file: symbols/GENERIC_SWITCH_SPST_NC.SchLib
+    name: Switch SPST (Normally Closed)
+    category: Electromechanical
+
+  - file: symbols/GENERIC_SWITCH_SPST_NO_MP.SchLib
+    name: Switch SPST (Normally Open, Mounting Pins)
+    category: Electromechanical
+
+  - file: symbols/GENERIC_BUZZER.SchLib
+    name: Buzzer
+    category: Electromechanical
+
+  - file: symbols/GENERIC_SPEAKER_MECHANICAL.SchLib
+    name: Speaker (Mechanical)
+    category: Electromechanical
+
+  # ── Connector ─────────────────────────────────────────────────────────────
+
+  - file: symbols/GENERIC_CONN_USBC.SchLib
+    name: USB-C Connector
+    category: Connector
+
+  - file: symbols/GENERIC_JUMPER.SchLib
+    name: Jumper
+    category: Connector
+
+  # ── Test Point ────────────────────────────────────────────────────────────
+
+  - file: symbols/GENERIC_TP.Schlib
+    name: Test Point
+    category: Test Point (graphical)
+
+  - file: symbols/GENERIC_TP_BOM.Schlib
+    name: Test Point
+    category: Test Point
+
+  - file: symbols/GENERIC_TOUCH_BUTTON.SchLib
+    name: Touch Button
+    category: Test Point  (graphical)
+
+  # ── Sensor ────────────────────────────────────────────────────────────────
+
+  - file: symbols/GENERIC_MOISTURE_SENSOR_FINGERS.SchLib
+    name: Moisture Sensor (Interdigitated)
+    category: Sensor
+
+  # ── Mechanical ────────────────────────────────────────────────────────────
+
+  - file: symbols/GENERIC_FIDUCIAL.SchLib
+    name: Fiducial Marker
+    category: Mechanical
+
+  - file: symbols/GENERIC_FORBIDDEN.SchLib
+    name: Forbidden Symbol
+    category: Mechanical
+
+  - file: symbols/GENERIC_GRAPHIC.SchLib
+    name: Graphic component  (graphical)
+    category: Mechanical
+
+  - file: symbols/GENERIC_LAYER_COUNTER.SchLib
+    name: Layer Counter
+    category: Mechanical
+
+  - file: symbols/GENERIC_PCB.SchLib
+    name: PCB Outline Symbol
+    category: Mechanical
+
+  # ── Pin-Specific: N-Channel MOSFET ────────────────────────────────────────
+
+  - file: symbols/PIN_SPECIFIC/GENERIC_N_MOSFET_DGS.Schlib
+    name: N-Ch MOSFET (Drain-Gate-Source)
+    category: Pin-Specific
+
+  - file: symbols/PIN_SPECIFIC/GENERIC_N_MOSFET_DSG.Schlib
+    name: N-Ch MOSFET (Drain-Source-Gate)
+    category: Pin-Specific
+
+  - file: symbols/PIN_SPECIFIC/GENERIC_N_MOSFET_GDS.Schlib
+    name: N-Ch MOSFET (Gate-Drain-Source)
+    category: Pin-Specific
+
+  - file: symbols/PIN_SPECIFIC/GENERIC_N_MOSFET_GSD.Schlib
+    name: N-Ch MOSFET (Gate-Source-Drain)
+    category: Pin-Specific
+
+  - file: symbols/PIN_SPECIFIC/GENERIC_N_MOSFET_SDG.Schlib
+    name: N-Ch MOSFET (Source-Drain-Gate)
+    category: Pin-Specific
+
+  - file: symbols/PIN_SPECIFIC/GENERIC_N_MOSFET_SGD.Schlib
+    name: N-Ch MOSFET (Source-Gate-Drain)
+    category: Pin-Specific
+
+  # ── Pin-Specific: P-Channel MOSFET ────────────────────────────────────────
+
+  - file: symbols/PIN_SPECIFIC/GENERIC_P_MOSFET_DGS.Schlib
+    name: P-Ch MOSFET (Drain-Gate-Source)
+    category: Pin-Specific
+
+  - file: symbols/PIN_SPECIFIC/GENERIC_P_MOSFET_DSG.Schlib
+    name: P-Ch MOSFET (Drain-Source-Gate)
+    category: Pin-Specific
+
+  - file: symbols/PIN_SPECIFIC/GENERIC_P_MOSFET_GDS.Schlib
+    name: P-Ch MOSFET (Gate-Drain-Source)
+    category: Pin-Specific
+
+  - file: symbols/PIN_SPECIFIC/GENERIC_P_MOSFET_GSD.Schlib
+    name: P-Ch MOSFET (Gate-Source-Drain)
+    category: Pin-Specific
+
+  - file: symbols/PIN_SPECIFIC/GENERIC_P_MOSFET_SDG.Schlib
+    name: P-Ch MOSFET (Source-Drain-Gate)
+    category: Pin-Specific
+
+  - file: symbols/PIN_SPECIFIC/GENERIC_P_MOSFET_SGD.Schlib
+    name: P-Ch MOSFET (Source-Gate-Drain)
+    category: Pin-Specific
+
+  # ── Pin-Specific: NPN BJT ─────────────────────────────────────────────────
+
+  - file: symbols/PIN_SPECIFIC/GENERIC_NPN_BCE.Schlib
+    name: NPN BJT (Base-Collector-Emitter)
+    category: Pin-Specific
+
+  - file: symbols/PIN_SPECIFIC/GENERIC_NPN_BEC.Schlib
+    name: NPN BJT (Base-Emitter-Collector)
+    category: Pin-Specific
+
+  - file: symbols/PIN_SPECIFIC/GENERIC_NPN_CBE.Schlib
+    name: NPN BJT (Collector-Base-Emitter)
+    category: Pin-Specific
+
+  - file: symbols/PIN_SPECIFIC/GENERIC_NPN_CEB.Schlib
+    name: NPN BJT (Collector-Emitter-Base)
+    category: Pin-Specific
+
+  - file: symbols/PIN_SPECIFIC/GENERIC_NPN_EBC.Schlib
+    name: NPN BJT (Emitter-Base-Collector)
+    category: Pin-Specific
+
+  - file: symbols/PIN_SPECIFIC/GENERIC_NPN_ECB.Schlib
+    name: NPN BJT (Emitter-Collector-Base)
+    category: Pin-Specific
+
+  # ── Pin-Specific: PNP BJT ─────────────────────────────────────────────────
+
+  - file: symbols/PIN_SPECIFIC/GENERIC_PNP_BCE.Schlib
+    name: PNP BJT (Base-Collector-Emitter)
+    category: Pin-Specific
+
+  - file: symbols/PIN_SPECIFIC/GENERIC_PNP_BEC.Schlib
+    name: PNP BJT (Base-Emitter-Collector)
+    category: Pin-Specific
+
+  - file: symbols/PIN_SPECIFIC/GENERIC_PNP_CBE.Schlib
+    name: PNP BJT (Collector-Base-Emitter)
+    category: Pin-Specific
+
+  - file: symbols/PIN_SPECIFIC/GENERIC_PNP_CEB.Schlib
+    name: PNP BJT (Collector-Emitter-Base)
+    category: Pin-Specific
+
+  - file: symbols/PIN_SPECIFIC/GENERIC_PNP_EBC.Schlib
+    name: PNP BJT (Emitter-Base-Collector)
+    category: Pin-Specific
+
+  - file: symbols/PIN_SPECIFIC/GENERIC_PNP_ECB.Schlib
+    name: PNP BJT (Emitter-Collector-Base)
+    category: Pin-Specific
+
+  # ── Headers ───────────────────────────────────────────────────────────────
+
+  - file: "symbols/HEADERS/Header 1.Schlib"
+    name: 1-Pin Header
+    category: Header
+
+  - file: "symbols/HEADERS/Header 2.Schlib"
+    name: 2-Pin Header
+    category: Header
+
+  - file: "symbols/HEADERS/Header 2X2.Schlib"
+    name: 2×2 Pin Header
+    category: Header
+
+  - file: "symbols/HEADERS/Header 3.Schlib"
+    name: 3-Pin Header
+    category: Header
+
+  - file: "symbols/HEADERS/Header 3X2.Schlib"
+    name: 3×2 Pin Header
+    category: Header
+
+  - file: "symbols/HEADERS/Header 3X2A.Schlib"
+    name: 3×2 Pin Header (Angled)
+    category: Header
+
+  - file: "symbols/HEADERS/Header 4.Schlib"
+    name: 4-Pin Header
+    category: Header
+
+  - file: "symbols/HEADERS/Header 4X2.Schlib"
+    name: 4×2 Pin Header
+    category: Header
+
+  - file: "symbols/HEADERS/Header 4X2A.Schlib"
+    name: 4×2 Pin Header (Angled)
+    category: Header
+
+  - file: "symbols/HEADERS/Header 5.Schlib"
+    name: 5-Pin Header
+    category: Header
+
+  - file: "symbols/HEADERS/Header 5X2.Schlib"
+    name: 5×2 Pin Header
+    category: Header
+
+  - file: "symbols/HEADERS/Header 5X2A.Schlib"
+    name: 5×2 Pin Header (Angled)
+    category: Header
+
+  - file: "symbols/HEADERS/Header 6.Schlib"
+    name: 6-Pin Header
+    category: Header
+
+  - file: "symbols/HEADERS/Header 6X2.Schlib"
+    name: 6×2 Pin Header
+    category: Header
+
+  - file: "symbols/HEADERS/Header 6X2A.Schlib"
+    name: 6×2 Pin Header (Angled)
+    category: Header
+
+  - file: "symbols/HEADERS/Header 7.Schlib"
+    name: 7-Pin Header
+    category: Header
+
+  - file: "symbols/HEADERS/Header 7X2.Schlib"
+    name: 7×2 Pin Header
+    category: Header
+
+  - file: "symbols/HEADERS/Header 7X2A.Schlib"
+    name: 7×2 Pin Header (Angled)
+    category: Header
+
+  - file: "symbols/HEADERS/Header 8.Schlib"
+    name: 8-Pin Header
+    category: Header
+
+  - file: "symbols/HEADERS/Header 8X2.Schlib"
+    name: 8×2 Pin Header
+    category: Header
+
+  - file: "symbols/HEADERS/Header 8X2A.Schlib"
+    name: 8×2 Pin Header (Angled)
+    category: Header
+
+  - file: "symbols/HEADERS/Header 9.Schlib"
+    name: 9-Pin Header
+    category: Header
+
+  - file: "symbols/HEADERS/Header 9X2.Schlib"
+    name: 9×2 Pin Header
+    category: Header
+
+  - file: "symbols/HEADERS/Header 9X2A.Schlib"
+    name: 9×2 Pin Header (Angled)
+    category: Header
+
+  - file: "symbols/HEADERS/Header 10.Schlib"
+    name: 10-Pin Header
+    category: Header
+
+  - file: "symbols/HEADERS/Header 10X2.Schlib"
+    name: 10×2 Pin Header
+    category: Header
+
+  - file: "symbols/HEADERS/Header 10X2A.Schlib"
+    name: 10×2 Pin Header (Angled)
+    category: Header
+
+  - file: "symbols/HEADERS/Header 11.Schlib"
+    name: 11-Pin Header
+    category: Header
+
+  - file: "symbols/HEADERS/Header 11X2.Schlib"
+    name: 11×2 Pin Header
+    category: Header
+
+  - file: "symbols/HEADERS/Header 11X2A.Schlib"
+    name: 11×2 Pin Header (Angled)
+    category: Header
+
+  - file: "symbols/HEADERS/Header 12.Schlib"
+    name: 12-Pin Header
+    category: Header
+
+  - file: "symbols/HEADERS/Header 12X2.Schlib"
+    name: 12×2 Pin Header
+    category: Header
+
+  - file: "symbols/HEADERS/Header 12X2A.Schlib"
+    name: 12×2 Pin Header (Angled)
+    category: Header
+
+  - file: "symbols/HEADERS/Header 13.Schlib"
+    name: 13-Pin Header
+    category: Header
+
+  - file: "symbols/HEADERS/Header 13X2.Schlib"
+    name: 13×2 Pin Header
+    category: Header
+
+  - file: "symbols/HEADERS/Header 13X2A.Schlib"
+    name: 13×2 Pin Header (Angled)
+    category: Header
+
+  - file: "symbols/HEADERS/Header 14.Schlib"
+    name: 14-Pin Header
+    category: Header
+
+  - file: "symbols/HEADERS/Header 14X2.Schlib"
+    name: 14×2 Pin Header
+    category: Header
+
+  - file: "symbols/HEADERS/Header 14X2A.Schlib"
+    name: 14×2 Pin Header (Angled)
+    category: Header
+
+  - file: "symbols/HEADERS/Header 15.Schlib"
+    name: 15-Pin Header
+    category: Header
+
+  - file: "symbols/HEADERS/Header 15X2.Schlib"
+    name: 15×2 Pin Header
+    category: Header
+
+  - file: "symbols/HEADERS/Header 15X2A.Schlib"
+    name: 15×2 Pin Header (Angled)
+    category: Header
+
+  - file: "symbols/HEADERS/Header 16.Schlib"
+    name: 16-Pin Header
+    category: Header
+
+  - file: "symbols/HEADERS/Header 16X2.Schlib"
+    name: 16×2 Pin Header
+    category: Header
+
+  - file: "symbols/HEADERS/Header 16X2A.Schlib"
+    name: 16×2 Pin Header (Angled)
+    category: Header
+
+  - file: "symbols/HEADERS/Header 17.Schlib"
+    name: 17-Pin Header
+    category: Header
+
+  - file: "symbols/HEADERS/Header 17X2.Schlib"
+    name: 17×2 Pin Header
+    category: Header
+
+  - file: "symbols/HEADERS/Header 17X2A.Schlib"
+    name: 17×2 Pin Header (Angled)
+    category: Header
+
+  - file: "symbols/HEADERS/Header 18.Schlib"
+    name: 18-Pin Header
+    category: Header
+
+  - file: "symbols/HEADERS/Header 18X2.Schlib"
+    name: 18×2 Pin Header
+    category: Header
+
+  - file: "symbols/HEADERS/Header 19.Schlib"
+    name: 19-Pin Header
+    category: Header
+
+  - file: "symbols/HEADERS/Header 19X2.Schlib"
+    name: 19×2 Pin Header
+    category: Header
+
+  - file: "symbols/HEADERS/Header 20.Schlib"
+    name: 20-Pin Header
+    category: Header
+
+  - file: "symbols/HEADERS/Header 20X2.Schlib"
+    name: 20×2 Pin Header
+    category: Header
+
+  - file: "symbols/HEADERS/Header 22.Schlib"
+    name: 22-Pin Header
+    category: Header
+
+  - file: "symbols/HEADERS/Header 22X2.Schlib"
+    name: 22×2 Pin Header
+    category: Header
+
+  - file: "symbols/HEADERS/Header 24.Schlib"
+    name: 24-Pin Header
+    category: Header
+
+  - file: "symbols/HEADERS/Header 24X2.Schlib"
+    name: 24×2 Pin Header
+    category: Header
+
+  - file: "symbols/HEADERS/Header 25.Schlib"
+    name: 25-Pin Header
+    category: Header
+
+  - file: "symbols/HEADERS/Header 25X2.Schlib"
+    name: 25×2 Pin Header
+    category: Header
+
+  - file: "symbols/HEADERS/Header 30.Schlib"
+    name: 30-Pin Header
+    category: Header
+
+  - file: "symbols/HEADERS/Header 30X2.Schlib"
+    name: 30×2 Pin Header
+    category: Header
