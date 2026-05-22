@@ -438,19 +438,22 @@ HTML_TEMPLATE = """\
 <script>
 const cards = Array.from(document.querySelectorAll('.card'));
 const search = document.getElementById('search');
-const filterBtns = document.querySelectorAll('.filter-btn');
+const allBtn = document.querySelector('.filter-btn[data-cat="all"]');
+const catBtns = Array.from(document.querySelectorAll('.filter-btn:not([data-cat="all"])'));
 const sections = document.querySelectorAll('.category-section');
 
-let activeCat = 'all';
+let activeCats = new Set();
+
+function syncAllBtn() {{
+  allBtn.classList.toggle('active', activeCats.size === 0);
+}}
 
 function applyFilters() {{
   const q = search.value.toLowerCase();
   let visible = 0;
   cards.forEach(card => {{
-    const nameMatch = card.dataset.name.includes(q);
-    const idMatch = card.dataset.id.includes(q);
-    const matchQ = !q || nameMatch || idMatch;
-    const matchCat = activeCat === 'all' || card.dataset.cat === activeCat;
+    const matchQ = !q || card.dataset.name.includes(q) || card.dataset.id.includes(q);
+    const matchCat = activeCats.size === 0 || activeCats.has(card.dataset.cat);
     card.style.display = matchQ && matchCat ? '' : 'none';
     if (matchQ && matchCat) visible++;
   }});
@@ -471,11 +474,24 @@ function applyFilters() {{
 
 search.addEventListener('input', applyFilters);
 
-filterBtns.forEach(btn => {{
+allBtn.addEventListener('click', () => {{
+  activeCats.clear();
+  catBtns.forEach(b => b.classList.remove('active'));
+  syncAllBtn();
+  applyFilters();
+}});
+
+catBtns.forEach(btn => {{
   btn.addEventListener('click', () => {{
-    filterBtns.forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    activeCat = btn.dataset.cat;
+    const cat = btn.dataset.cat;
+    if (activeCats.has(cat)) {{
+      activeCats.delete(cat);
+      btn.classList.remove('active');
+    }} else {{
+      activeCats.add(cat);
+      btn.classList.add('active');
+    }}
+    syncAllBtn();
     applyFilters();
   }});
 }});
