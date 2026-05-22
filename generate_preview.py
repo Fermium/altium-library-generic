@@ -458,13 +458,23 @@ HTML_TEMPLATE = """\
   }}
   #lightbox-close:hover {{ color: var(--text); }}
 
-  #lightbox-img {{
+  #lightbox-parts {{
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
     width: 100%;
-    max-height: 320px;
+  }}
+
+  .lb-part {{
+    flex: 1;
+    min-width: 100px;
+    max-width: 200px;
+    max-height: 280px;
     object-fit: contain;
     background: #fff;
     border-radius: 8px;
-    padding: 1.5rem;
+    padding: 1.2rem;
   }}
 
   #lightbox-name {{
@@ -511,7 +521,7 @@ HTML_TEMPLATE = """\
 <div id="lightbox">
   <div id="lightbox-inner">
     <button id="lightbox-close">✕</button>
-    <img id="lightbox-img" src="" alt=""/>
+    <div id="lightbox-parts"></div>
     <div id="lightbox-name"></div>
     <div id="lightbox-id-row">
       <span id="lightbox-id"></span>
@@ -601,15 +611,21 @@ document.querySelectorAll('.copy-btn').forEach(btn => {{
 }});
 
 // Lightbox
-const lightbox = document.getElementById('lightbox');
-const lbImg    = document.getElementById('lightbox-img');
-const lbName   = document.getElementById('lightbox-name');
-const lbId     = document.getElementById('lightbox-id');
-const lbCopy   = document.getElementById('lightbox-copy');
+const lightbox   = document.getElementById('lightbox');
+const lbParts    = document.getElementById('lightbox-parts');
+const lbName     = document.getElementById('lightbox-name');
+const lbId       = document.getElementById('lightbox-id');
+const lbCopy     = document.getElementById('lightbox-copy');
 
 function openLightbox(card) {{
-  lbImg.src = card.querySelector('img').src;
-  lbImg.alt = card.dataset.name;
+  const parts = JSON.parse(card.dataset.parts);
+  lbParts.innerHTML = '';
+  parts.forEach(src => {{
+    const img = document.createElement('img');
+    img.src = src;
+    img.className = 'lb-part';
+    lbParts.appendChild(img);
+  }});
   lbName.textContent = card.querySelector('.card-name').textContent;
   const id = card.dataset.id;
   lbId.textContent = id;
@@ -646,7 +662,7 @@ SECTION_TEMPLATE = """\
 COPY_ICON = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>'
 
 CARD_TEMPLATE = """\
-    <div class="card" data-name="{name_lower}" data-id="{id_lower}" data-cat="{cat}">
+    <div class="card" data-name="{name_lower}" data-id="{id_lower}" data-cat="{cat}" data-parts="{parts_json}">
       <div class="card-preview"><img src="{svg_rel}" alt="{name}" loading="lazy"/></div>
       <div class="card-label">
         <span class="card-name">{name}</span>
@@ -679,6 +695,7 @@ def build_html(components: list[dict]) -> str:
     sections_html = []
     for cat in cats:
         items = sorted(by_cat[cat], key=lambda x: x["name"])
+        import json, html as _html
         cards_html = "\n".join(
             CARD_TEMPLATE.format(
                 name=c["name"],
@@ -687,6 +704,7 @@ def build_html(components: list[dict]) -> str:
                 id_lower=c["id"].lower(),
                 cat=cat,
                 svg_rel=c["svg_rel"],
+                parts_json=_html.escape(json.dumps([p["svg_rel"] for p in c["parts"]])),
                 copy_icon=COPY_ICON,
             )
             for c in items
@@ -718,24 +736,24 @@ def process_one(schlib_path: Path, manifest: dict) -> list[dict]:
         print(f"  SKIP {schlib_path.name}: {exc}")
         return []
 
-    results = []
-    total = len(svgs)
-    for i, (symbol_id, svg_content) in enumerate(sorted(svgs.items()), 1):
-        if manifest_name:
-            display_name = manifest_name if total == 1 else f"{manifest_name} (Part {i})"
-        else:
-            display_name = symbol_id
-
+    parts = []
+    for symbol_id, svg_content in sorted(svgs.items()):
         svg_file = SVG_DIR / f"{symbol_id}.svg"
         svg_file.write_text(tighten_viewbox(svg_content), encoding="utf-8")
-        results.append({
+        parts.append({
             "id": symbol_id,
-            "name": display_name,
-            "category": manifest_cat,
             "svg_rel": svg_file.relative_to(DOCS_DIR).as_posix(),
         })
-        print(f"  OK  {display_name} [{symbol_id}]")
-    return results
+
+    display_name = manifest_name or parts[0]["id"]
+    print(f"  OK  {display_name} ({len(parts)} part{'s' if len(parts) > 1 else ''})")
+    return [{
+        "id": parts[0]["id"],
+        "name": display_name,
+        "category": manifest_cat,
+        "svg_rel": parts[0]["svg_rel"],
+        "parts": parts,
+    }]
 
 
 def main() -> None:
