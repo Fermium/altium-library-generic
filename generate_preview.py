@@ -409,6 +409,81 @@ HTML_TEMPLATE = """\
     font-size: 0.95rem;
     grid-column: 1 / -1;
   }}
+
+  /* ── Lightbox ── */
+  #lightbox {{
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: rgba(0,0,0,.75);
+    backdrop-filter: blur(4px);
+    align-items: center;
+    justify-content: center;
+  }}
+  #lightbox.open {{ display: flex; }}
+
+  #lightbox-inner {{
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 2rem;
+    max-width: 480px;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.2rem;
+    position: relative;
+    animation: pop .15s ease;
+  }}
+  @keyframes pop {{
+    from {{ transform: scale(.93); opacity: 0; }}
+    to   {{ transform: scale(1);   opacity: 1; }}
+  }}
+
+  #lightbox-close {{
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    background: none;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 1.2rem;
+    line-height: 1;
+    padding: 0.25rem 0.4rem;
+    border-radius: 4px;
+    transition: color .15s;
+  }}
+  #lightbox-close:hover {{ color: var(--text); }}
+
+  #lightbox-img {{
+    width: 100%;
+    max-height: 320px;
+    object-fit: contain;
+    background: #fff;
+    border-radius: 8px;
+    padding: 1.5rem;
+  }}
+
+  #lightbox-name {{
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text);
+    text-align: center;
+  }}
+
+  #lightbox-id-row {{
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }}
+  #lightbox-id {{
+    font-family: 'Cascadia Code', 'Fira Code', 'Courier New', monospace;
+    font-size: 0.8rem;
+    color: var(--muted);
+  }}
 </style>
 </head>
 <body>
@@ -432,6 +507,18 @@ HTML_TEMPLATE = """\
 <main id="main">
 {sections}
 </main>
+
+<div id="lightbox">
+  <div id="lightbox-inner">
+    <button id="lightbox-close">✕</button>
+    <img id="lightbox-img" src="" alt=""/>
+    <div id="lightbox-name"></div>
+    <div id="lightbox-id-row">
+      <span id="lightbox-id"></span>
+      <button class="copy-btn" id="lightbox-copy" title="Copy Altium ID">{copy_icon}</button>
+    </div>
+  </div>
+</div>
 
 <div id="toast"></div>
 
@@ -512,6 +599,36 @@ document.querySelectorAll('.copy-btn').forEach(btn => {{
     navigator.clipboard.writeText(btn.dataset.copy).then(() => showToast(btn.dataset.copy));
   }});
 }});
+
+// Lightbox
+const lightbox = document.getElementById('lightbox');
+const lbImg    = document.getElementById('lightbox-img');
+const lbName   = document.getElementById('lightbox-name');
+const lbId     = document.getElementById('lightbox-id');
+const lbCopy   = document.getElementById('lightbox-copy');
+
+function openLightbox(card) {{
+  lbImg.src = card.querySelector('img').src;
+  lbImg.alt = card.dataset.name;
+  lbName.textContent = card.querySelector('.card-name').textContent;
+  const id = card.dataset.id;
+  lbId.textContent = id;
+  lbCopy.dataset.copy = id;
+  lightbox.classList.add('open');
+}}
+
+function closeLightbox() {{
+  lightbox.classList.remove('open');
+}}
+
+cards.forEach(card => card.addEventListener('click', () => openLightbox(card)));
+document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
+lightbox.addEventListener('click', e => {{ if (e.target === lightbox) closeLightbox(); }});
+document.addEventListener('keydown', e => {{ if (e.key === 'Escape') closeLightbox(); }});
+lbCopy.addEventListener('click', e => {{
+  e.stopPropagation();
+  navigator.clipboard.writeText(lbCopy.dataset.copy).then(() => showToast(lbCopy.dataset.copy));
+}});
 </script>
 </body>
 </html>
@@ -581,6 +698,7 @@ def build_html(components: list[dict]) -> str:
     return HTML_TEMPLATE.format(
         filter_buttons=filter_buttons,
         sections="\n".join(sections_html),
+        copy_icon=COPY_ICON,
     )
 
 
