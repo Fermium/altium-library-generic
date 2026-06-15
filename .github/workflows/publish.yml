@@ -1,0 +1,26 @@
+name: Publish to Sideband
+
+# Push to main → incrementally sync the symbols to the Sideband catalog
+# (adds new, removes deleted, skips existing). Also runnable on demand.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: Fermium/sideband-library-publish@v1
+        with:
+          slug: altium-generic
+          org: fermium
+          repo: altium-library-generic
+          source-dir: symbols
+          catalog-url: ${{ secrets.SIDEBAND_CATALOG_URL }}
+          token: ${{ secrets.SIDEBAND_PUBLISH_TOKEN }}
