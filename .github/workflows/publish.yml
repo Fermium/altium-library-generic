@@ -6,6 +6,11 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      reingest_existing:
+        description: "Re-ingest EVERY symbol incl. ones already in the catalog (one-time backfill to reapply changed server-side rendering, e.g. multi-part symbols)."
+        type: boolean
+        default: false
 
 concurrency:
   group: publish
@@ -24,3 +29,4 @@ jobs:
           source-dir: symbols
           catalog-url: ${{ secrets.SIDEBAND_CATALOG_URL }}
           token: ${{ secrets.SIDEBAND_PUBLISH_TOKEN }}
+          reingest-existing: ${{ inputs.reingest_existing || 'false' }}
